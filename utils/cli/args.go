@@ -8,23 +8,24 @@ import (
 
 type ArgsList struct {
 	Choices []string
-	Val string
+	Val *string
+	DefaultVal string
 }
 
-func NewArgsList(choices []string, initVal string) *ArgsList {
+func NewArgsList(choices []string, defaultVal string) *ArgsList {
 	if choices == nil {
 		debug.DebugPrintln("must provide choices")
 		return nil
 	}
-	if !slices.Contains(choices, initVal) {
-		debug.DebugPrintln("val %s not in choices %s", initVal, choices)
+	if !slices.Contains(choices, defaultVal) {
+		debug.DebugPrintln("val %s not in choices %s", defaultVal, choices)
 		return nil
 	}
-	return &ArgsList{Choices: choices, Val: initVal}
+	return &ArgsList{Choices: choices, Val: &defaultVal, DefaultVal: defaultVal}
 }
 
 func (argsList ArgsList) String() string {
-	return argsList.Val
+	return *argsList.Val
 }
 
 func (argsList ArgsList) Set(val string) error {
@@ -32,7 +33,7 @@ func (argsList ArgsList) Set(val string) error {
 		return fmt.Errorf("val %s not in choices %s", val, argsList.Choices)
 	}
 
-	argsList.Val = val
-	debug.DebugPrintln("SET %s", argsList.Val)
+	*argsList.Val = val
+	debug.DebugPrintln("SET %s", *argsList.Val)
 	return nil
 }

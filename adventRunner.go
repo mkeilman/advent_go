@@ -5,7 +5,6 @@ import (
 	"advent/utils/cli"
 	"flag"
 	"os"
-	//"reflect"
 	"slices"
 )
 
@@ -23,21 +22,17 @@ func main() {
 
 	flag.Parse()
 
-	debug.DebugPrintln("VAL %s", m.Val)
-
-	//if !slices.Contains(MODES, m) {
-	//	os.Exit(1)
-	//}
+	debug.DebugPrintln("VAL %s", *m.Val)
 
 	//d := New(2024, 11)
 	//var d Runner
 
-	if slices.Contains([]string{"test", "all"}, m.Val) {
+	if slices.Contains([]string{"test", "all"}, *m.Val) {
 		debug.DebugPrintln("TEST:")
 		//d.run_from_test_input()
 	}
 
-	if slices.Contains([]string{"file", "all"}, m.Val) {
+	if slices.Contains([]string{"file", "all"}, *m.Val) {
 		debug.DebugPrintln("FILE:")
 		//d.run_from_file()
 	}
