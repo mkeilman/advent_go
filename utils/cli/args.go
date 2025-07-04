@@ -18,13 +18,16 @@ func NewArgsList(choices []string, defaultVal string) *ArgsList {
 		return nil
 	}
 	if !slices.Contains(choices, defaultVal) {
-		debug.DebugPrintln("val %s not in choices %s", defaultVal, choices)
+		debug.DebugPrintln("default %s not in choices %s", defaultVal, choices)
 		return nil
 	}
 	return &ArgsList{Choices: choices, Val: &defaultVal, DefaultVal: defaultVal}
 }
 
 func (argsList ArgsList) String() string {
+	if argsList.Val == nil {
+		return ""
+	}
 	return *argsList.Val
 }
 

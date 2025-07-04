@@ -4,7 +4,7 @@ import (
 	"advent/utils/debug"
 	"advent/utils/cli"
 	"flag"
-	"os"
+	//"os"
 	"slices"
 )
 
@@ -14,11 +14,11 @@ var MODES = []string{"test", "file", "all"}
 func main() {
 
 	m := cli.NewArgsList(MODES, "all")
-	if m == nil {
-		os.Exit(1)
-	}
+	//if m == nil {
+	//	os.Exit(1)
+	//}
 
-	flag.Var(*m, "mode", "run mode")
+	flag.Var(m, "mode", "run mode")
 
 	flag.Parse()
 
