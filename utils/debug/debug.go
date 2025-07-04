@@ -17,7 +17,7 @@ func DebugPrint(txtFormat string, end string, args ...any) {
 	fmt.Print(fmt.Sprintf(txtFormat, args...) + fmt.Sprintf("%s", end))
 }
 
-// Convenience method to print with a newline
+// Print with a newline
 //
 // Args:
 //

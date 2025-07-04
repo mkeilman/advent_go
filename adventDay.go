@@ -2,10 +2,18 @@ package main
 
 import (
 	"fmt"
+	//"reflect"
+	//"advent/year2024"
 )
 
+type Runner interface {
+	Run(input []string) int
+	RunFromTestInput(input []string) int
+	RunFromFile() int
+}
+
 // Base class for all advent "days"
-type adventDay struct {
+type AdventDay struct {
 	input     []string
 	inputFile string
 	testInput []string
@@ -13,8 +21,9 @@ type adventDay struct {
 }
 
 // ADD RUNARGS
-func New(year int, day int) adventDay {
-	return adventDay{[]string{}, fmt.Sprintf("year_{%d}/input_day_{%02d}.txt", year, day), []string{}, []string{}}
+func New(year int, day int) *AdventDay {
+	//p := fmt.Sprintf("year%d", year)
+	return &AdventDay{[]string{}, fmt.Sprintf("year%d/inputDay%02d.txt", year, day), []string{}, []string{}}
 }
 
 // ADD RUNARGS
@@ -27,7 +36,7 @@ func Build(year int, day int) {
 // Args:
 //
 //	input ([]string): array of strings to use as input
-func (d adventDay) Run(input []string) int {
+func (d AdventDay) Run(input []string) int {
 	d.input = input
 	return 0
 }
@@ -47,7 +56,7 @@ func (d adventDay) Run(input []string) int {
 // Args:
 //
 //	input ([]string): array of strings to use as test input
-func (d adventDay) RunFromTestInput(input []string) int {
+func (d AdventDay) RunFromTestInput(input []string) int {
 	if len(input) > 0 {
 		return d.Run(input)
 	} else {
@@ -56,7 +65,7 @@ func (d adventDay) RunFromTestInput(input []string) int {
 }
 
 // Run using input from file
-func (d adventDay) RunFromFile() int {
+func (d AdventDay) RunFromFile() int {
 
 	return d.Run([]string{})
 	//with open(d.input_file, "r") as f:

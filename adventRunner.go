@@ -2,47 +2,45 @@ package main
 
 import (
 	"advent/utils/debug"
+	"advent/utils/cli"
 	"flag"
+	"os"
+	//"reflect"
 	"slices"
 )
 
+var MODES = []string{"test", "file", "all"}
+
+
 func main() {
 
-	m := ""
-	flag.StringVar(&m, "mode", "all", "run mode")
+	m := cli.NewArgsList(MODES, "all")
+	if m == nil {
+		os.Exit(1)
+	}
 
-	//p.add_argument("year", type=int, help="year to run")
-	//p.add_argument("day", type=int, help="day to run")
-	//p.add_argument(
-	//    "--mode",
-	//    type=str,
-	//    help="run mode",
-	//    choices=["test", "file", "all"],
-	//    default="all",
-	//    dest="mode",
-	//)
-	//a, u = p.parse_known_args()
-	//d = day.Build(a.year, a.day, u)
-	//d = day.Build(2024, 11)
-
-	//modes := []string{"test", "file", "all"}
-
-	//flag.wordPtr(&d.mode)
+	flag.Var(*m, "mode", "run mode")
 
 	flag.Parse()
-	debug.DebugPrintln("MODE: %s", m)
 
-	//if !slices.Contains(m, modes) {
+	debug.DebugPrintln("VAL %s", m.Val)
 
+	//if !slices.Contains(MODES, m) {
+	//	os.Exit(1)
 	//}
 
-	if slices.Contains([]string{"test", "all"}, m) {
+	//d := New(2024, 11)
+	//var d Runner
+
+	if slices.Contains([]string{"test", "all"}, m.Val) {
 		debug.DebugPrintln("TEST:")
 		//d.run_from_test_input()
 	}
 
-	if slices.Contains([]string{"file", "all"}, m) {
+	if slices.Contains([]string{"file", "all"}, m.Val) {
 		debug.DebugPrintln("FILE:")
 		//d.run_from_file()
 	}
+
+	//debug.DebugPrintln("%s", flag.Args())
 }
