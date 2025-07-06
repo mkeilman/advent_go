@@ -37,6 +37,9 @@ func (argsList ArgsList) Set(val string) error {
 	}
 
 	*argsList.Val = val
-	debug.DebugPrintln("SET %s", *argsList.Val)
 	return nil
+}
+
+func (argsList ArgsList) Usage() string {
+	return fmt.Sprintf("--mode=%s", argsList.Choices)
 }

@@ -4,7 +4,8 @@ import (
 	"advent/utils/debug"
 	"advent/utils/cli"
 	"flag"
-	//"os"
+	"fmt"
+	"os"
 	"slices"
 )
 
@@ -14,15 +15,22 @@ var MODES = []string{"test", "file", "all"}
 func main() {
 
 	m := cli.NewArgsList(MODES, "all")
-	//if m == nil {
-	//	os.Exit(1)
-	//}
 
-	flag.Var(m, "mode", "run mode")
+	usage := func() {
+		fmt.Fprintf(os.Stderr, "Usage: go run advent %s <year> <day>\n", m.Usage())
+	}
 
+	flag.Var(*m, "mode", "run mode")
+	flag.Usage = usage
 	flag.Parse()
 
-	debug.DebugPrintln("VAL %s", *m.Val)
+	args := flag.Args()
+
+	if len(args) < 2 {
+		usage()
+		os.Exit(1)
+	}
+
 
 	//d := New(2024, 11)
 	//var d Runner
@@ -37,5 +45,5 @@ func main() {
 		//d.run_from_file()
 	}
 
-	//debug.DebugPrintln("%s", flag.Args())
+	//debug.DebugPrintln("A: %s F: %s", os.Args[1:], flag.Args())
 }
