@@ -5,33 +5,41 @@ import (
 	"advent/utils/cli"
 	"advent/utils/collections"
 
+	"errors"
 	"flag"
 	"fmt"
 	"os"
 	"slices"
-	"strings"
+	//"strings"
 
 	"golang.org/x/tools/go/packages"
 )
 
+const (
+	ERR_NUM_ARGS = iota + 90
+	ERR_INVALID_YEAR
+)
+
 var MODES = []string{"test", "file", "all"}
 
+func getYearPackage(year string) (*packages.Package, error) {
+
+	// must do recursive search - Load itself does NOT fail if it looks for packages that do not exist
+	pk, e := packages.Load(&packages.Config{Mode: packages.NeedName}, "./...")
+	if e != nil {
+		return nil, e
+	}
+
+	// now filter the results
+	pk = collections.Filter(pk, func (p *packages.Package) bool { return p.Name == fmt.Sprintf("year%s", year) })
+	if len(pk) == 0 {
+		return nil, errors.New("Package missing")
+	}
+
+	return pk[0], nil
+}
 
 func main() {
-
-
-	cfg := &packages.Config{Mode: packages.NeedName}
-	pk, e := packages.Load(cfg, "advent/...")
-	if e != nil {
-		debug.DebugPrintln("LOAD ERR %s", e)
-		os.Exit(1)
-	}
-	pk = collections.Filter(pk, func (p *packages.Package) bool { return strings.HasPrefix(p.Name, "year") })
-	//packages.PrintErrors(pk)
-	//debug.DebugPrintln("P %s", pk)
-	//for _, p := range pk {
-	//	debug.DebugPrintln("Package: %s\n", p.PkgPath)
-	//}
 
 	m := cli.NewArgsList(MODES, "all")
 
@@ -47,8 +55,17 @@ func main() {
 
 	if len(args) < 2 {
 		usage()
-		os.Exit(1)
+		os.Exit(ERR_NUM_ARGS)
 	}
+
+	year, _ := args[0], args[1]
+
+	_, err := getYearPackage(year)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Cannot load package for year %s: %s\n", args[0], err)
+		os.Exit(ERR_INVALID_YEAR)
+	}
+
 
 
 
