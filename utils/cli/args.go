@@ -4,6 +4,7 @@ import (
 	"advent/utils/debug"
 	"fmt"
 	"slices"
+	"strings"
 )
 
 type ArgsList struct {
@@ -41,5 +42,5 @@ func (argsList ArgsList) Set(val string) error {
 }
 
 func (argsList ArgsList) Usage() string {
-	return fmt.Sprintf("--mode=%s", argsList.Choices)
+	return fmt.Sprintf("--mode=[%s]", strings.Join(argsList.Choices, "|"))
 }

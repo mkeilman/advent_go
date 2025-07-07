@@ -7,12 +7,27 @@ import (
 	"fmt"
 	"os"
 	"slices"
+	//"strings"
+
+	"golang.org/x/tools/go/packages"
 )
 
 var MODES = []string{"test", "file", "all"}
 
 
 func main() {
+
+
+	cfg := &packages.Config{}
+	pk, e:= packages.Load(cfg, "advent/...")
+	if e != nil {
+		debug.DebugPrintln("LOAD ERR %s", e)
+	}
+	packages.PrintErrors(pk)
+	debug.DebugPrintln("P %s", pk)
+	//for _, p := range pk {
+	//	debug.DebugPrintln("Package: %s\n", p.PkgPath)
+	//}
 
 	m := cli.NewArgsList(MODES, "all")
 
