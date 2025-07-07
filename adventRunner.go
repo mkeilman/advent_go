@@ -4,7 +4,7 @@ import (
 	"advent/utils/debug"
 	"advent/utils/cli"
 	"advent/utils/collections"
-	
+
 	"flag"
 	"fmt"
 	"os"
