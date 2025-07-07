@@ -3,11 +3,13 @@ package main
 import (
 	"advent/utils/debug"
 	"advent/utils/cli"
+	"advent/utils/collections"
+	
 	"flag"
 	"fmt"
 	"os"
 	"slices"
-	//"strings"
+	"strings"
 
 	"golang.org/x/tools/go/packages"
 )
@@ -18,13 +20,15 @@ var MODES = []string{"test", "file", "all"}
 func main() {
 
 
-	cfg := &packages.Config{}
-	pk, e:= packages.Load(cfg, "advent/...")
+	cfg := &packages.Config{Mode: packages.NeedName}
+	pk, e := packages.Load(cfg, "advent/...")
 	if e != nil {
 		debug.DebugPrintln("LOAD ERR %s", e)
+		os.Exit(1)
 	}
-	packages.PrintErrors(pk)
-	debug.DebugPrintln("P %s", pk)
+	pk = collections.Filter(pk, func (p *packages.Package) bool { return strings.HasPrefix(p.Name, "year") })
+	//packages.PrintErrors(pk)
+	//debug.DebugPrintln("P %s", pk)
 	//for _, p := range pk {
 	//	debug.DebugPrintln("Package: %s\n", p.PkgPath)
 	//}
@@ -45,6 +49,7 @@ func main() {
 		usage()
 		os.Exit(1)
 	}
+
 
 
 	//d := New(2024, 11)
