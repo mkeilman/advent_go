@@ -22,8 +22,7 @@ type AdventDay struct {
 
 // ADD RUNARGS
 func New(year int, day int) *AdventDay {
-	//p := fmt.Sprintf("year%d", year)
-	return &AdventDay{[]string{}, fmt.Sprintf("year%d/inputDay%02d.txt", year, day), []string{}, []string{}}
+	return &AdventDay{inputFile: fmt.Sprintf("year%d/inputDay%02d.txt", year, day)}
 }
 
 // ADD RUNARGS

@@ -10,7 +10,6 @@ import (
 	"fmt"
 	"os"
 	"slices"
-	//"strings"
 
 	"golang.org/x/tools/go/packages"
 )
@@ -22,7 +21,7 @@ const (
 
 var MODES = []string{"test", "file", "all"}
 
-func getYearPackage(year string) (*packages.Package, error) {
+func packageByName(name string) (*packages.Package, error) {
 
 	// must do recursive search - Load itself does NOT fail if it looks for packages that do not exist
 	pk, e := packages.Load(&packages.Config{Mode: packages.NeedName}, "./...")
@@ -31,7 +30,7 @@ func getYearPackage(year string) (*packages.Package, error) {
 	}
 
 	// now filter the results
-	pk = collections.Filter(pk, func (p *packages.Package) bool { return p.Name == fmt.Sprintf("year%s", year) })
+	pk = collections.Filter(pk, func (p *packages.Package) bool { return p.Name == name })
 	if len(pk) == 0 {
 		return nil, errors.New("Package missing")
 	}
@@ -60,14 +59,13 @@ func main() {
 
 	year, _ := args[0], args[1]
 
-	_, err := getYearPackage(year)
+	_, err := packageByName(fmt.Sprintf("year%s", year))
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Cannot load package for year %s: %s\n", args[0], err)
 		os.Exit(ERR_INVALID_YEAR)
 	}
 
-
-
+	//pk, e := packages.Load(&packages.Config{Mode: packages.NeedName}, fmt.Sprintf("filename=day%s.go", day))
 
 	//d := New(2024, 11)
 	//var d Runner

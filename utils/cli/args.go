@@ -7,6 +7,7 @@ import (
 	"strings"
 )
 
+// NOTE that mutable values must be pointers
 type ArgsList struct {
 	Choices []string
 	Val *string
