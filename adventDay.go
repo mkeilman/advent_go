@@ -14,7 +14,7 @@ type Runner interface {
 
 // Base class for all advent "days"
 type AdventDay struct {
-	input     []string
+	input     *[]string
 	inputFile string
 	testInput []string
 	TEST      []string
@@ -22,7 +22,7 @@ type AdventDay struct {
 
 // ADD RUNARGS
 func New(year int, day int) *AdventDay {
-	return &AdventDay{inputFile: fmt.Sprintf("year%d/inputDay%02d.txt", year, day)}
+	return &AdventDay{inputFile: fmt.Sprintf("year%d/inputDay%02d.txt", year, day), TEST: []string{}}
 }
 
 // ADD RUNARGS
@@ -36,7 +36,7 @@ func Build(year int, day int) {
 //
 //	input ([]string): array of strings to use as input
 func (d AdventDay) Run(input []string) int {
-	d.input = input
+	*d.input = input
 	return 0
 }
 
