@@ -23,17 +23,17 @@ type AdventDay11 struct {
 	numBlinks int
 }
 
-func NewDay11(runArgs []string) any {
+func NewDay11(runArgs []string) types.Runner {
 	return AdventDay11{}
 }
 
 func (d AdventDay11) Config(cfgFileName string, inputFileName string) {
 	debug.DebugPrintln("CONFIG %s INPUT %s", cfgFileName, inputFileName)
-	//*d.data.InputFile = inputFileName
+	//*d.data.InputFile = "" //inputFileName
 }
 
 func (d AdventDay11) InputFile() string {
-	return *d.data.InputFile
+	return ""  //*d.data.InputFile
 }
 
 func (d AdventDay11) TestInput() []string {
@@ -41,12 +41,12 @@ func (d AdventDay11) TestInput() []string {
 }
 
 func (d AdventDay11) Run(input []string) int {
-	*d.data.Input = input
+	debug.DebugPrintln("INPUT %s", input)
 
 	digits := regexp.MustCompile(`\d+`)
 
 	// single line
-	stones :=  collections.Map(digits.FindAllString((*d.data.Input)[0], -1), func (s string) uint {res, _ := strconv.ParseInt(s, 10, 0); return uint(res) })
+	stones :=  collections.Map(digits.FindAllString((input)[0], -1), func (s string) uint {res, _ := strconv.ParseInt(s, 10, 0); return uint(res) })
 	s := d.blink(stones)
 	n := d.numStones(s)
 	debug.DebugPrintln("stones %v, %d blinks -> %d total", stones, d.numBlinks, n)
@@ -64,7 +64,7 @@ func (d AdventDay11) Run(input []string) int {
 //
 func (d AdventDay11) blink(stones []uint) map[uint]uint {
 
-	var countMap map[uint]uint
+	var countMap map[uint]uint = make(map[uint]uint)
 
 	updateCountMap := func(st []uint, m map[uint]uint, numStones uint) {
 		for _, s := range st {

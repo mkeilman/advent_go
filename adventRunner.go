@@ -1,6 +1,7 @@
 package main
 
 import (
+	"advent/types"
 	"advent/utils/debug"
 	"advent/utils/cli"
 	//"advent/utils/collections"
@@ -64,12 +65,12 @@ func main() {
 
 	if slices.Contains([]string{"test", "all"}, *modes.Val) {
 		debug.DebugPrintln("TEST:")
-		RunFromTestInput(*d)
+		RunFromTestInput(d)
 	}
 
 	if slices.Contains([]string{"file", "all"}, *modes.Val) {
 		debug.DebugPrintln("FILE:")
-		RunFromFile(*d)
+		RunFromFile(d)
 	}
 
 	debug.DebugPrintln("A: %s F: %s", os.Args[1:], flag.Args())
@@ -80,12 +81,12 @@ func main() {
 // Args:
 //
 //	input ([]string): array of strings to use as test input
-func RunFromTestInput(d Runner) int {
+func RunFromTestInput(d types.Runner) int {
 	return d.Run(d.TestInput())
 }
 
 // Run using input from file
-func RunFromFile(d Runner) int {
+func RunFromFile(d types.Runner) int {
 
 	content, err := os.ReadFile(d.InputFile())
 	if err != nil {
