@@ -44,7 +44,6 @@ func main() {
 	if len(args) < 2 {
 		exit(ERR_NUM_ARGS)
 	}
-
 	
 	year, err := strconv.ParseInt(args[0], 10, 0)
 	if err != nil {
