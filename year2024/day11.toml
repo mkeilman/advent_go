@@ -1,0 +1,10 @@
+[[arg]]
+name = "numBlinks"
+flag = "--num-blinks"
+type = "int"
+help = "number of blinks"
+defualt = 25
+
+
+[testData]
+test = ["0 1 10 99 999"]

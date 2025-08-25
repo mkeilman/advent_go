@@ -75,4 +75,15 @@ func TestReduce(t *testing.T) {
 	if res != want {
 		t.Errorf("Reduce result %d does not match expected %d", res, want)
 	}
+
+	strSource := []string{"a", "b", "c"}
+	concat := func(v1 string, v2 string) string {
+		return v1 + v2
+	}
+	strWant := "abc"
+	strRes := Reduce(strSource, concat, "")
+	if strRes != strWant {
+		t.Errorf("Reduce result %s does not match expected %s", strRes, strWant)
+	}
 }
+
