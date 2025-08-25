@@ -81,18 +81,18 @@ func main() {
 // Args:
 //
 //	input ([]string): array of strings to use as test input
-func RunFromTestInput(d types.Runner) int {
-	return d.Run(d.TestInput())
+func RunFromTestInput(d types.AdventDay) int {
+	return d.DayRunner.Run(d.DayRunner.TestInput())
 }
 
 // Run using input from file
-func RunFromFile(d types.Runner) int {
+func RunFromFile(d types.AdventDay) int {
 
-	content, err := os.ReadFile(d.InputFile())
+	content, err := os.ReadFile(d.InputFile)
 	if err != nil {
 		exit(ERR_INVALID_FILE)
 	}
-	return d.Run(strings.Split(string(content), "\n"))
+	return d.DayRunner.Run(strings.Split(string(content), "\n"))
 }
 
 //func inputFile(year int, day int) string {

@@ -14,11 +14,18 @@ var adventRunners = map[int]map[int]func(runArgs []string)types.Runner {
 }
 
 // ADD RUNARGS (?)
-func NewDay(year int, day int, runArgs []string) types.Runner {
+func NewDay(year int, day int, runArgs []string) types.AdventDay { //types.Runner {
 	debug.DebugPrintln("DAY ARGS %s", runArgs)
+	d := types.AdventDay{
+		Year: year,
+		Day: day,
+		ConfigFile: configFile(year, day),
+		InputFile: inputFile(year, day),
+		DayRunner: adventRunners[year][day](runArgs),
+	}
 
-	d := adventRunners[year][day](runArgs)
-	d.Config(configFile(year, day), inputFile(year, day))
+	//d := adventRunners[year][day](runArgs)
+	d.DayRunner.Config(d.ConfigFile)
 	return d
 }
 

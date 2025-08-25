@@ -19,7 +19,6 @@ var TEST = []string{
 
 	
 type AdventDay11 struct {
-	data *types.AdventData
 	numBlinks int
 }
 
@@ -27,13 +26,8 @@ func NewDay11(runArgs []string) types.Runner {
 	return AdventDay11{}
 }
 
-func (d AdventDay11) Config(cfgFileName string, inputFileName string) {
-	debug.DebugPrintln("CONFIG %s INPUT %s", cfgFileName, inputFileName)
-	//*d.data.InputFile = "" //inputFileName
-}
-
-func (d AdventDay11) InputFile() string {
-	return ""  //*d.data.InputFile
+func (d AdventDay11) Config(cfgFileName string) {
+	debug.DebugPrintln("CONFIG %s", cfgFileName)
 }
 
 func (d AdventDay11) TestInput() []string {
