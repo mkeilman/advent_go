@@ -41,8 +41,8 @@ func (d AdventDay11) Run(input []string) int {
 
 	// single line
 	stones :=  collections.Map(digits.FindAllString((input)[0], -1), func (s string) uint {res, _ := strconv.ParseInt(s, 10, 0); return uint(res) })
-	s := d.blink(stones)
-	n := d.numStones(s)
+	s := blink(d.numBlinks, stones)
+	n := numStones(s)
 	debug.DebugPrintln("stones %v, %d blinks -> %d total", stones, d.numBlinks, n)
 	return int(n)
 }
@@ -56,7 +56,7 @@ func (d AdventDay11) Run(input []string) int {
 //     Returns:
 //         (dict) a map of stone values to the number of stones with that value
 //
-func (d AdventDay11) blink(stones []uint) map[uint]uint {
+func blink(numBlinks int, stones []uint) map[uint]uint {
 
 	var countMap map[uint]uint = make(map[uint]uint)
 
@@ -72,15 +72,15 @@ func (d AdventDay11) blink(stones []uint) map[uint]uint {
 
 	updateCountMap(stones, countMap, 1)
 
-	if d.numBlinks < 1 {
+	if numBlinks < 1 {
 		return countMap
 	}
 	
-	for i := range d.numBlinks {
+	for i := range numBlinks {
 		if i == i {}  // stupid
 		var m map[uint]uint
 		for _, s := range countMap {
-			updateCountMap(d.nextStones(s), m, countMap[s])
+			updateCountMap(nextStones(s), m, countMap[s])
 		}
 		countMap = m
 	}
@@ -95,7 +95,7 @@ func (d AdventDay11) blink(stones []uint) map[uint]uint {
 //
 //    Returns:
 //        ([]int) an array of generated stones
-func (d AdventDay11) nextStones(stone uint) []uint {
+func nextStones(stone uint) []uint {
 	numDigits := func(n uint) int {
 		return int(math.Log10(float64(n))) + 1
 	}
@@ -115,7 +115,7 @@ func (d AdventDay11) nextStones(stone uint) []uint {
 }
 
 
-func (d AdventDay11) numStones(countMap map[uint]uint) uint {
+func numStones(countMap map[uint]uint) uint {
 	v := []uint{}
 	for i := range(maps.Values(countMap)) {
 		v = append(v, i)
