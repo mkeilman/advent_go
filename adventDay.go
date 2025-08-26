@@ -19,11 +19,9 @@ func NewDay(year int, day int, runArgs []string) *types.AdventDay {
 	d := types.AdventDay{
 		Year: year,
 		Day: day,
-		ConfigFile: configFile(year, day),
 		InputFile: inputFile(year, day),
 		DayRunner: adventRunners[year][day],
 	}
-	//d.DayRunner.Config(d.ConfigFile)
 	return &d
 }
 

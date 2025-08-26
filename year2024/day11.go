@@ -27,10 +27,6 @@ func NewDay11(runArgs []string) types.Runner {
 	return d
 }
 
-func (d *AdventDay11) Config(cfgFileName string) {
-	debug.DebugPrintln("CONFIG %s", cfgFileName)
-}
-
 func (d *AdventDay11) Flags() *flag.FlagSet{
 	fs := flag.NewFlagSet("2024.11", flag.ContinueOnError)
 	fs.IntVar(&d.numBlinks, "num-blinks", 25, "number of blinks")
