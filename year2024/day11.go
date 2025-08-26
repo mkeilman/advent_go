@@ -28,8 +28,8 @@ func NewDay11(runArgs []string) types.Runner {
 }
 
 func (d *AdventDay11) Flags() *flag.FlagSet{
-	fs := flag.NewFlagSet("2024.11", flag.ContinueOnError)
-	fs.IntVar(&d.numBlinks, "num-blinks", 25, "number of blinks")
+	fs := flag.NewFlagSet("2024.11", flag.ExitOnError)
+	fs.IntVar(&d.numBlinks, "num-blinks", 25, "--num-blinks=<num_blinks> (num_blinks >= 0)")
 	return fs
 }
 

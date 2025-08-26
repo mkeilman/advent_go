@@ -2,8 +2,9 @@ package main
 
 import (
 	"advent/types"
-	"advent/utils/debug"
 	"advent/utils/cli"
+	"advent/utils/debug"
+	"flag"
 
 	//"errors"
 	//"flag"
@@ -57,7 +58,8 @@ func main() {
 	d := NewDay(int(year), int(day), runArgs)
 
 	fs := d.DayRunner.Flags()
-	fs.Var(*modes, "mode", "run mode")
+	fs.Var(*modes, "mode", modes.Usage())
+	fs.Usage = usageFn(fs)
 	fs.Parse(runArgs)
 
 	if slices.Contains([]string{"test", "all"}, *modes.Val) {
@@ -92,7 +94,22 @@ func RunFromFile(d types.AdventDay) int {
 	return d.DayRunner.Run(strings.Split(string(content), "\n"))
 }
 
-
 func usage() {
-	fmt.Fprintf(os.Stderr, "Usage: go run advent <year> <day> %s\n", modes.Usage())
+	fmt.Fprint(os.Stderr, usageStr( modes.Usage()))
+}
+
+func usageFn(fs *flag.FlagSet) func() {
+	u := func() string {
+		s := ""
+		f := func(fl *flag.Flag) {
+			s = s + fmt.Sprintf("%s ", fl.Usage)
+		}
+		fs.VisitAll(f)
+		return s
+	}
+	return func() { fmt.Fprint(os.Stderr, usageStr(u())) }
+}
+
+func usageStr(s string) string {
+	return fmt.Sprintf("Usage: go run advent <year> <day> %s\n", s)
 }
