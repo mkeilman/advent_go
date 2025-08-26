@@ -23,7 +23,8 @@ type AdventDay11 struct {
 }
 
 func NewDay11(runArgs []string) types.Runner {
-	return AdventDay11{}
+	debug.DebugPrintln("DAY11 ARGS %s", runArgs)
+	return AdventDay11{numBlinks: 25}
 }
 
 func (d AdventDay11) Config(cfgFileName string) {
@@ -78,9 +79,9 @@ func blink(numBlinks int, stones []uint) map[uint]uint {
 	
 	for i := range numBlinks {
 		if i == i {}  // stupid
-		var m map[uint]uint
-		for _, s := range countMap {
-			updateCountMap(nextStones(s), m, countMap[s])
+		var m map[uint]uint = make(map[uint]uint)
+		for k, v := range countMap {
+			updateCountMap(nextStones(k), m, v)
 		}
 		countMap = m
 	}
