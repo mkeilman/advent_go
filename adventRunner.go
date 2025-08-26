@@ -55,7 +55,7 @@ func main() {
 	if len(args) > 2 {
 		runArgs = args[2:]
 	}
-	d := NewDay(int(year), int(day), runArgs)
+	d := NewDay(int(year), int(day))
 
 	fs := d.DayRunner.Flags()
 	fs.Var(*modes, "mode", modes.Usage())

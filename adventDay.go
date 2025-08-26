@@ -15,7 +15,7 @@ var adventRunners = map[int]map[int]types.Runner {
 }
 
 // ADD RUNARGS (?)
-func NewDay(year int, day int, runArgs []string) *types.AdventDay {
+func NewDay(year int, day int) *types.AdventDay {
 	d := types.AdventDay{
 		Year: year,
 		Day: day,
@@ -23,10 +23,6 @@ func NewDay(year int, day int, runArgs []string) *types.AdventDay {
 		DayRunner: adventRunners[year][day],
 	}
 	return &d
-}
-
-func configFile(year int, day int) string {
-	return fmt.Sprintf("year%d/day%02d.toml", year, day)
 }
 
 func inputFile(year int, day int) string {

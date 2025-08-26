@@ -19,7 +19,7 @@ var TEST = []string{
 
 	
 type AdventDay11 struct {
-	numBlinks int
+	numBlinks uint
 }
 
 func NewDay11(runArgs []string) types.Runner {
@@ -29,7 +29,7 @@ func NewDay11(runArgs []string) types.Runner {
 
 func (d *AdventDay11) Flags() *flag.FlagSet{
 	fs := flag.NewFlagSet("2024.11", flag.ExitOnError)
-	fs.IntVar(&d.numBlinks, "num-blinks", 25, "--num-blinks=<num_blinks> (num_blinks >= 0)")
+	fs.UintVar(&d.numBlinks, "num-blinks", 25, "--num-blinks=<num_blinks> (num_blinks >= 0)")
 	return fs
 }
 
@@ -59,7 +59,7 @@ func (d *AdventDay11) Run(input []string) int {
 //     Returns:
 //         (dict) a map of stone values to the number of stones with that value
 //
-func blink(numBlinks int, stones []uint) map[uint]uint {
+func blink(numBlinks uint, stones []uint) map[uint]uint {
 
 	var countMap map[uint]uint = make(map[uint]uint)
 
