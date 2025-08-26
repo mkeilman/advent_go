@@ -2,7 +2,7 @@ package main
 
 import (
 	"advent/types"
-	"advent/utils/debug"
+	//"advent/utils/debug"
 	"advent/year2024"
 	"fmt"
 )
@@ -16,7 +16,6 @@ var adventRunners = map[int]map[int]types.Runner {
 
 // ADD RUNARGS (?)
 func NewDay(year int, day int, runArgs []string) *types.AdventDay {
-	debug.DebugPrintln("DAY ARGS %s", runArgs)
 	d := types.AdventDay{
 		Year: year,
 		Day: day,
@@ -25,7 +24,6 @@ func NewDay(year int, day int, runArgs []string) *types.AdventDay {
 		DayRunner: adventRunners[year][day],
 	}
 	//d.DayRunner.Config(d.ConfigFile)
-	debug.DebugPrintln("NEWDAY ADDR %p RUNNER ADDR", &d, &d.DayRunner)
 	return &d
 }
 

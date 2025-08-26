@@ -47,7 +47,6 @@ func main() {
 	if err != nil {
 		exit(ERR_INVALID_DAY)
 	}
-	debug.DebugPrintln("YEAR %d DAY %d", year, day)
 
 
 	runArgs := []string{}
@@ -56,15 +55,13 @@ func main() {
 		runArgs = args[2:]
 	}
 	d := NewDay(int(year), int(day), runArgs)
-	debug.DebugPrintln("D ADDR %p RUNNER %p", d, &d.DayRunner)
 
 	fs := d.DayRunner.Flags()
 	fs.Var(*modes, "mode", "run mode")
 	fs.Parse(runArgs)
 
-
 	if slices.Contains([]string{"test", "all"}, *modes.Val) {
-		debug.DebugPrintln("TEST")
+		debug.DebugPrintln("TEST:")
 		RunFromTestInput(*d)
 	}
 

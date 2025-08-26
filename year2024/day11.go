@@ -24,7 +24,6 @@ type AdventDay11 struct {
 
 func NewDay11(runArgs []string) types.Runner {
 	d := &AdventDay11{}
-	debug.DebugPrintln("DAY11 ARGS %s D ADDR %s NB ADDR %s", runArgs, &d, &d.numBlinks)
 	return d
 }
 
@@ -33,14 +32,12 @@ func (d *AdventDay11) Config(cfgFileName string) {
 }
 
 func (d *AdventDay11) Flags() *flag.FlagSet{
-	debug.DebugPrintln("FS D ADDR %p", &d)
 	fs := flag.NewFlagSet("2024.11", flag.ContinueOnError)
 	fs.IntVar(&d.numBlinks, "num-blinks", 25, "number of blinks")
 	return fs
 }
 
 func (d *AdventDay11) TestInput() []string {
-	debug.DebugPrintln("TI D ADDR %p", &d)
 	return TEST
 }
 
