@@ -4,17 +4,14 @@ import (
 	"advent/types"
 	"advent/utils/debug"
 	"advent/utils/cli"
-	//"advent/utils/collections"
 
 	//"errors"
-	"flag"
+	//"flag"
 	"fmt"
 	"os"
 	"slices"
 	"strconv"
 	"strings"
-
-	//"golang.org/x/tools/go/packages"
 )
 
 const (
@@ -35,22 +32,18 @@ func exit(code int) {
 
 func main() {
 
-	//flag.Var(*modes, "mode", "run mode")
-	//flag.Usage = usage
-	//flag.Parse()
+	// 
+	args := os.Args[1:]
 
-	osArgs := os.Args[1:]
-	//args := flag.Args()
-
-	if len(osArgs) < 2 {
+	if len(args) < 2 {
 		exit(ERR_NUM_ARGS)
 	}
 	
-	year, err := strconv.ParseInt(osArgs[0], 10, 0)
+	year, err := strconv.ParseInt(args[0], 10, 0)
 	if err != nil {
 		exit(ERR_INVALID_YEAR)
 	}
-	day, err := strconv.ParseInt(osArgs[1], 10, 0)
+	day, err := strconv.ParseInt(args[1], 10, 0)
 	if err != nil {
 		exit(ERR_INVALID_DAY)
 	}
@@ -59,10 +52,11 @@ func main() {
 
 	runArgs := []string{}
 
-	if len(osArgs) > 2 {
-		runArgs = osArgs[2:]
+	if len(args) > 2 {
+		runArgs = args[2:]
 	}
 	d := NewDay(int(year), int(day), runArgs)
+	debug.DebugPrintln("D ADDR %p RUNNER %p", d, &d.DayRunner)
 
 	fs := d.DayRunner.Flags()
 	fs.Var(*modes, "mode", "run mode")
@@ -70,28 +64,28 @@ func main() {
 
 
 	if slices.Contains([]string{"test", "all"}, *modes.Val) {
-		debug.DebugPrintln("TEST:")
-		RunFromTestInput(d)
+		debug.DebugPrintln("TEST")
+		RunFromTestInput(*d)
 	}
 
 	if slices.Contains([]string{"file", "all"}, *modes.Val) {
 		debug.DebugPrintln("FILE:")
-		RunFromFile(d)
+		RunFromFile(*d)
 	}
-
-	debug.DebugPrintln("A: %s F: %s", os.Args[1:], flag.Args())
 }
 
 // Run using local test input
 //
 // Args:
-//
-//	input ([]string): array of strings to use as test input
+//		d (types.AdventDay): day struct
 func RunFromTestInput(d types.AdventDay) int {
 	return d.DayRunner.Run(d.DayRunner.TestInput())
 }
 
 // Run using input from file
+//
+// Args:
+//		d (types.AdventDay): day struct
 func RunFromFile(d types.AdventDay) int {
 
 	content, err := os.ReadFile(d.InputFile)
@@ -103,5 +97,5 @@ func RunFromFile(d types.AdventDay) int {
 
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "Usage: go run advent %s <year> <day>\n", modes.Usage())
+	fmt.Fprintf(os.Stderr, "Usage: go run advent <year> <day> %s\n", modes.Usage())
 }

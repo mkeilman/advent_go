@@ -7,24 +7,26 @@ import (
 	"fmt"
 )
 
-var adventRunners = map[int]map[int]func(runArgs []string)types.Runner {
+// move to types?
+var adventRunners = map[int]map[int]types.Runner {
 	2024: {
-		11: year2024.NewDay11,
+		11: &year2024.AdventDay11{},
 	},
 }
 
 // ADD RUNARGS (?)
-func NewDay(year int, day int, runArgs []string) types.AdventDay {
+func NewDay(year int, day int, runArgs []string) *types.AdventDay {
 	debug.DebugPrintln("DAY ARGS %s", runArgs)
 	d := types.AdventDay{
 		Year: year,
 		Day: day,
 		ConfigFile: configFile(year, day),
 		InputFile: inputFile(year, day),
-		DayRunner: adventRunners[year][day](runArgs),
+		DayRunner: adventRunners[year][day],
 	}
-	d.DayRunner.Config(d.ConfigFile)
-	return d
+	//d.DayRunner.Config(d.ConfigFile)
+	debug.DebugPrintln("NEWDAY ADDR %p RUNNER ADDR", &d, &d.DayRunner)
+	return &d
 }
 
 func configFile(year int, day int) string {

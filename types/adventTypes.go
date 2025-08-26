@@ -14,7 +14,7 @@ type AdventDay struct {
 
 type Runner interface {
 	Config(cfgFileName string)
-	Flags() flag.FlagSet
+	Flags() *flag.FlagSet
 	Run(input []string) int
 	TestInput() []string
 }

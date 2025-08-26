@@ -23,31 +23,36 @@ type AdventDay11 struct {
 }
 
 func NewDay11(runArgs []string) types.Runner {
-	debug.DebugPrintln("DAY11 ARGS %s", runArgs)
-	return AdventDay11{numBlinks: 25}
+	d := &AdventDay11{}
+	debug.DebugPrintln("DAY11 ARGS %s D ADDR %s NB ADDR %s", runArgs, &d, &d.numBlinks)
+	return d
 }
 
-func (d AdventDay11) Config(cfgFileName string) {
+func (d *AdventDay11) Config(cfgFileName string) {
 	debug.DebugPrintln("CONFIG %s", cfgFileName)
 }
 
-func (d AdventDay11) Flags() flag.FlagSet{
+func (d *AdventDay11) Flags() *flag.FlagSet{
+	debug.DebugPrintln("FS D ADDR %p", &d)
 	fs := flag.NewFlagSet("2024.11", flag.ContinueOnError)
 	fs.IntVar(&d.numBlinks, "num-blinks", 25, "number of blinks")
-	return *fs
+	return fs
 }
 
-func (d AdventDay11) TestInput() []string {
+func (d *AdventDay11) TestInput() []string {
+	debug.DebugPrintln("TI D ADDR %p", &d)
 	return TEST
 }
 
-func (d AdventDay11) Run(input []string) int {
+func (d *AdventDay11) Run(input []string) int {
 	digits := regexp.MustCompile(`\d+`)
 
-	// single line
-	stones :=  collections.Map(digits.FindAllString((input)[0], -1), func (s string) uint {res, _ := strconv.ParseInt(s, 10, 0); return uint(res) })
-	s := blink(d.numBlinks, stones)
-	n := numStones(s)
+	// input is on a single line
+	stones :=  collections.Map(
+		digits.FindAllString(input[0], -1),
+		func (s string) uint {res, _ := strconv.ParseInt(s, 10, 0); return uint(res) },
+	)
+	n := numStones(blink(d.numBlinks, stones))
 	debug.DebugPrintln("stones %v, %d blinks -> %d total", stones, d.numBlinks, n)
 	return int(n)
 }
@@ -82,7 +87,8 @@ func blink(numBlinks int, stones []uint) map[uint]uint {
 	}
 	
 	for i := range numBlinks {
-		if i == i {}  // stupid
+		// we must refer to i even if we don't need it
+		debug.DebugIf("", "", i < 0)
 		var m map[uint]uint = make(map[uint]uint)
 		for k, v := range countMap {
 			updateCountMap(nextStones(k), m, v)
