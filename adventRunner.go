@@ -35,21 +35,22 @@ func exit(code int) {
 
 func main() {
 
-	flag.Var(*modes, "mode", "run mode")
-	flag.Usage = usage
-	flag.Parse()
+	//flag.Var(*modes, "mode", "run mode")
+	//flag.Usage = usage
+	//flag.Parse()
 
-	args := flag.Args()
+	osArgs := os.Args[1:]
+	//args := flag.Args()
 
-	if len(args) < 2 {
+	if len(osArgs) < 2 {
 		exit(ERR_NUM_ARGS)
 	}
 	
-	year, err := strconv.ParseInt(args[0], 10, 0)
+	year, err := strconv.ParseInt(osArgs[0], 10, 0)
 	if err != nil {
 		exit(ERR_INVALID_YEAR)
 	}
-	day, err := strconv.ParseInt(args[1], 10, 0)
+	day, err := strconv.ParseInt(osArgs[1], 10, 0)
 	if err != nil {
 		exit(ERR_INVALID_DAY)
 	}
@@ -57,10 +58,16 @@ func main() {
 
 
 	runArgs := []string{}
-	if len(args) > 2 {
-		runArgs = args[2:]
+
+	if len(osArgs) > 2 {
+		runArgs = osArgs[2:]
 	}
 	d := NewDay(int(year), int(day), runArgs)
+
+	fs := d.DayRunner.Flags()
+	fs.Var(*modes, "mode", "run mode")
+	fs.Parse(runArgs)
+
 
 	if slices.Contains([]string{"test", "all"}, *modes.Val) {
 		debug.DebugPrintln("TEST:")
@@ -93,10 +100,6 @@ func RunFromFile(d types.AdventDay) int {
 	}
 	return d.DayRunner.Run(strings.Split(string(content), "\n"))
 }
-
-//func inputFile(year int, day int) string {
-//	return fmt.Sprintf("year%d/inputDay%02d.txt", year, day)
-//}
 
 
 func usage() {

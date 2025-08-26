@@ -1,5 +1,9 @@
 package types
 
+import (
+	"flag"
+)
+
 type AdventDay struct {
 	ConfigFile string
 	InputFile string
@@ -10,6 +14,7 @@ type AdventDay struct {
 
 type Runner interface {
 	Config(cfgFileName string)
+	Flags() flag.FlagSet
 	Run(input []string) int
 	TestInput() []string
 }

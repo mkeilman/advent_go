@@ -6,7 +6,7 @@ import (
 	"advent/utils/collections"
 	"advent/utils/mathutils"
 
-	//"flag"
+	"flag"
 	"maps"
 	"math"
 	"regexp"
@@ -31,13 +31,17 @@ func (d AdventDay11) Config(cfgFileName string) {
 	debug.DebugPrintln("CONFIG %s", cfgFileName)
 }
 
+func (d AdventDay11) Flags() flag.FlagSet{
+	fs := flag.NewFlagSet("2024.11", flag.ContinueOnError)
+	fs.IntVar(&d.numBlinks, "num-blinks", 25, "number of blinks")
+	return *fs
+}
+
 func (d AdventDay11) TestInput() []string {
 	return TEST
 }
 
 func (d AdventDay11) Run(input []string) int {
-	debug.DebugPrintln("INPUT %s", input)
-
 	digits := regexp.MustCompile(`\d+`)
 
 	// single line
