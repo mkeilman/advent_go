@@ -38,7 +38,7 @@ func (d *AdventDay11) TestInput() []string {
 	return TEST
 }
 
-func (d *AdventDay11) Run(input []string) int {
+func (d *AdventDay11) Run(input []string) any {
 	digits := regexp.MustCompile(`\d+`)
 
 	// input is on a single line
@@ -48,7 +48,7 @@ func (d *AdventDay11) Run(input []string) int {
 	)
 	n := numStones(blink(d.numBlinks, stones))
 	debug.DebugPrintln("stones %v, %d blinks -> %d total", stones, d.numBlinks, n)
-	return int(n)
+	return n
 }
 
 // Generate new stones from the given array. Luckily the goal of this exercise is to *count* the

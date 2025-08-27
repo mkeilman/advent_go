@@ -13,7 +13,7 @@ type AdventDay struct {
 
 type Runner interface {
 	Flags() *flag.FlagSet
-	Run(input []string) int
+	Run(input []string) any
 	TestInput() []string
 }
 

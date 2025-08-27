@@ -77,7 +77,7 @@ func main() {
 //
 // Args:
 //		d (types.AdventDay): day struct
-func RunFromTestInput(d types.AdventDay) int {
+func RunFromTestInput(d types.AdventDay) any {
 	return d.DayRunner.Run(d.DayRunner.TestInput())
 }
 
@@ -85,7 +85,7 @@ func RunFromTestInput(d types.AdventDay) int {
 //
 // Args:
 //		d (types.AdventDay): day struct
-func RunFromFile(d types.AdventDay) int {
+func RunFromFile(d types.AdventDay) any {
 
 	content, err := os.ReadFile(d.InputFile)
 	if err != nil {
