@@ -7,6 +7,7 @@ import (
 	"advent/utils/mathutils"
 
 	"flag"
+	"fmt"
 	"maps"
 	"math"
 	"regexp"
@@ -81,7 +82,7 @@ func blink(numBlinks uint, stones []uint) map[uint]uint {
 	
 	for i := range numBlinks {
 		// we must refer to i even if we don't need it
-		debug.DebugIf("", "", i < 0)
+		debug.DebugIf(fmt.Sprintf("%d", i), "", false)
 		var m map[uint]uint = make(map[uint]uint)
 		for k, v := range countMap {
 			updateCountMap(nextStones(k), m, v)
