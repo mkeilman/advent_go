@@ -4,6 +4,8 @@ import (
 	"advent/types"
 	//"advent/utils/debug"
 	"advent/year2024"
+
+	"errors"
 	"fmt"
 )
 
@@ -14,15 +16,23 @@ var adventRunners = map[int]map[int]types.Runner {
 	},
 }
 
-// ADD RUNARGS (?)
-func NewDay(year int, day int) *types.AdventDay {
+func NewDay(year int, day int) (ad *types.AdventDay, err error) {
+	y := adventRunners[year]
+	if y == nil {
+		return nil, errors.New(fmt.Sprintf("invalid year %d", year))
+	}
+	r := y[day]
+	if r == nil {
+		return nil, errors.New(fmt.Sprintf("invalid day %d for year %d", day, year))
+	}
+
 	d := types.AdventDay{
 		Year: year,
 		Day: day,
 		InputFile: inputFile(year, day),
-		DayRunner: adventRunners[year][day],
+		DayRunner: r,
 	}
-	return &d
+	return &d, nil
 }
 
 func inputFile(year int, day int) string {

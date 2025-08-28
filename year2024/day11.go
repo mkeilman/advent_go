@@ -23,9 +23,8 @@ type AdventDay11 struct {
 	numBlinks uint
 }
 
-func NewDay11(runArgs []string) types.Runner {
-	d := &AdventDay11{}
-	return d
+func NewDay11() types.Runner {
+	return &AdventDay11{}
 }
 
 func (d *AdventDay11) Flags() *flag.FlagSet{

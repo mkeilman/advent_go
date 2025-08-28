@@ -1,13 +1,12 @@
 package main
 
 import (
+	"advent/run"
 	"advent/types"
 	"advent/utils/cli"
 	"advent/utils/debug"
-	"flag"
 
-	//"errors"
-	//"flag"
+	"flag"
 	"fmt"
 	"os"
 	"slices"
@@ -24,29 +23,30 @@ const (
 
 var MODES = []string{"test", "file", "all"}
 var modes = cli.NewArgsList(MODES, "all")
+var baseMsg = usageStr(modes.Usage())
 
 
-func exit(code int) {
-	usage()
+func exit(code int, msg string) {
+	usage(msg)
 	os.Exit(code)
 }
 
 func main() {
 
-	// 
+
 	args := os.Args[1:]
 
 	if len(args) < 2 {
-		exit(ERR_NUM_ARGS)
+		run.Exit(ERR_NUM_ARGS, baseMsg)
 	}
 	
 	year, err := strconv.ParseInt(args[0], 10, 0)
 	if err != nil {
-		exit(ERR_INVALID_YEAR)
+		run.Exit(run.ERR_INVALID_YEAR, baseMsg)
 	}
 	day, err := strconv.ParseInt(args[1], 10, 0)
 	if err != nil {
-		exit(ERR_INVALID_DAY)
+		run.Exit(run.ERR_INVALID_DAY, baseMsg)
 	}
 
 
@@ -55,7 +55,10 @@ func main() {
 	if len(args) > 2 {
 		runArgs = args[2:]
 	}
-	d := NewDay(int(year), int(day))
+	d, err := NewDay(int(year), int(day))
+	if err != nil {
+		run.Exit(run.ERR_INVALID_YEAR, err.Error())
+	}
 
 	fs := d.DayRunner.Flags()
 	fs.Var(*modes, "mode", modes.Usage())
@@ -64,12 +67,12 @@ func main() {
 
 	if slices.Contains([]string{"test", "all"}, *modes.Val) {
 		debug.DebugPrintln("TEST:")
-		RunFromTestInput(*d)
+		run.RunFromTestInput(*d)
 	}
 
 	if slices.Contains([]string{"file", "all"}, *modes.Val) {
 		debug.DebugPrintln("FILE:")
-		RunFromFile(*d)
+		run.RunFromFile(*d)
 	}
 }
 
@@ -77,6 +80,7 @@ func main() {
 //
 // Args:
 //		d (types.AdventDay): day struct
+//
 func RunFromTestInput(d types.AdventDay) any {
 	return d.DayRunner.Run(d.DayRunner.TestInput())
 }
@@ -85,17 +89,18 @@ func RunFromTestInput(d types.AdventDay) any {
 //
 // Args:
 //		d (types.AdventDay): day struct
+//
 func RunFromFile(d types.AdventDay) any {
 
 	content, err := os.ReadFile(d.InputFile)
 	if err != nil {
-		exit(ERR_INVALID_FILE)
+		exit(ERR_INVALID_FILE, baseMsg)
 	}
 	return d.DayRunner.Run(strings.Split(string(content), "\n"))
 }
 
-func usage() {
-	fmt.Fprint(os.Stderr, usageStr( modes.Usage()))
+func usage(msg string) {
+	fmt.Fprint(os.Stderr, msg)
 }
 
 func usageFn(fs *flag.FlagSet) func() {
@@ -111,5 +116,5 @@ func usageFn(fs *flag.FlagSet) func() {
 }
 
 func usageStr(s string) string {
-	return fmt.Sprintf("Usage: go run advent <year> <day> %s\n", s)
+	return fmt.Sprintf("Usage: go run advent <year> <day> %s", s)
 }
