@@ -2,7 +2,6 @@ package main
 
 import (
 	"advent/run"
-	"advent/types"
 	"advent/utils/cli"
 	"advent/utils/debug"
 
@@ -11,7 +10,6 @@ import (
 	"os"
 	"slices"
 	"strconv"
-	"strings"
 )
 
 const (
@@ -25,11 +23,6 @@ var MODES = []string{"test", "file", "all"}
 var modes = cli.NewArgsList(MODES, "all")
 var baseMsg = usageStr(modes.Usage())
 
-
-func exit(code int, msg string) {
-	usage(msg)
-	os.Exit(code)
-}
 
 func main() {
 
@@ -76,32 +69,6 @@ func main() {
 	}
 }
 
-// Run using local test input
-//
-// Args:
-//		d (types.AdventDay): day struct
-//
-func RunFromTestInput(d types.AdventDay) any {
-	return d.DayRunner.Run(d.DayRunner.TestInput())
-}
-
-// Run using input from file
-//
-// Args:
-//		d (types.AdventDay): day struct
-//
-func RunFromFile(d types.AdventDay) any {
-
-	content, err := os.ReadFile(d.InputFile)
-	if err != nil {
-		exit(ERR_INVALID_FILE, baseMsg)
-	}
-	return d.DayRunner.Run(strings.Split(string(content), "\n"))
-}
-
-func usage(msg string) {
-	fmt.Fprint(os.Stderr, msg)
-}
 
 func usageFn(fs *flag.FlagSet) func() {
 	u := func() string {
