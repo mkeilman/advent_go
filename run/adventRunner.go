@@ -1,10 +1,15 @@
 package run
 
 import (
+	//"advent/utils/debug"
 	"advent/types"
 
 	"fmt"
 	"os"
+	//"path"
+	"path/filepath"
+	"runtime"
+	//"slices"
 	"strings"
 )
 
@@ -37,9 +42,10 @@ func RunFromTestInput(d types.AdventDay) any {
 //
 func RunFromFile(d types.AdventDay) any {
 
-	content, err := os.ReadFile(d.InputFile)
+	_, base, _, _ := runtime.Caller(0)
+	content, err := os.ReadFile(filepath.Join(filepath.Dir(base), "..", d.InputFile))
 	if err != nil {
-		Exit(ERR_INVALID_FILE, fmt.Sprintf("invalid input file %s", d.InputFile))
+		Exit(ERR_INVALID_FILE, fmt.Sprintf("invalid input file %s: %s", d.InputFile, err.Error()))
 	}
 	return d.DayRunner.Run(strings.Split(string(content), "\n"))
 }
