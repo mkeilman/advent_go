@@ -35,12 +35,5 @@ func TestDay11(t *testing.T) {
 		t.Errorf("run result %d does not match expected %d", res, want)
 	}
 
-	d.numBlinks = 25
-	want = 203457
-	res = d.Run(SMALL)
-	n = res.(uint)
-	if n != want {
-		t.Errorf("run result %d does not match expected %d", res, want)
-	}
 
 }

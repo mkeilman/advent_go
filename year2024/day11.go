@@ -18,7 +18,9 @@ var TEST = []string{
 	"0 1 10 99 999",
 }
 
-	
+var runnerMap = types.RunnerMap(2024, 11, NewDay11)
+
+
 type AdventDay11 struct {
 	numBlinks uint
 }
